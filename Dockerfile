@@ -11,7 +11,7 @@ COPY ./ ./
 RUN bash build.sh release docker
 
 FROM openlistteam/openlist-base-image:${BASE_IMAGE_TAG}
-LABEL MAINTAINER="OpenList"
+LABEL MAINTAINER="at13xe"
 ARG INSTALL_FFMPEG=false
 ARG INSTALL_ARIA2=false
 ARG USER=openlist
@@ -22,7 +22,7 @@ WORKDIR /opt/openlist/
 
 RUN addgroup -g ${GID} ${USER} && \
     adduser -D -u ${UID} -G ${USER} ${USER} && \
-    mkdir -p /opt/openlist/data
+    mkdir -p /opt/atlist/data
 
 COPY --from=builder --chmod=755 --chown=${UID}:${GID} /app/bin/openlist ./
 COPY --chmod=755 --chown=${UID}:${GID} entrypoint.sh /entrypoint.sh
@@ -31,6 +31,6 @@ USER ${USER}
 RUN /entrypoint.sh version
 
 ENV UMASK=022 RUN_ARIA2=${INSTALL_ARIA2}
-VOLUME /opt/openlist/data/
+VOLUME /opt/atlist/data/
 EXPOSE 5244 5245
 CMD [ "/entrypoint.sh" ]
