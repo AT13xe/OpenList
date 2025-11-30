@@ -10,7 +10,7 @@ RUN go mod download
 COPY ./ ./
 RUN bash build.sh release docker
 
-FROM openlistteam/openlist-base-image:${BASE_IMAGE_TAG}
+FROM at13xe/atlist-base-image:${BASE_IMAGE_TAG}
 LABEL MAINTAINER="at13xe"
 ARG INSTALL_FFMPEG=false
 ARG INSTALL_ARIA2=false
@@ -18,13 +18,13 @@ ARG USER=openlist
 ARG UID=1001
 ARG GID=1001
 
-WORKDIR /opt/openlist/
+WORKDIR /opt/atlist/
 
 RUN addgroup -g ${GID} ${USER} && \
     adduser -D -u ${UID} -G ${USER} ${USER} && \
     mkdir -p /opt/atlist/data
 
-COPY --from=builder --chmod=755 --chown=${UID}:${GID} /app/bin/openlist ./
+COPY --from=builder --chmod=755 --chown=${UID}:${GID} /app/bin/atlist ./
 COPY --chmod=755 --chown=${UID}:${GID} entrypoint.sh /entrypoint.sh
 
 USER ${USER}
